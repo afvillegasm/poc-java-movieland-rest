@@ -1,10 +1,11 @@
 package com.movieland.service.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class AuditInfo {
+public class AuditInfo implements Serializable{
 	
 	private String createdBy;
 	
