@@ -102,7 +102,7 @@ public class GenreServiceImpl {
 			if(Objects.nonNull(genreDto.getDescription())) {
 				entityToUpdate.setDescription(genreDto.getDescription());
 			}
-			if(Objects.isNull(genreDto.getAuditInfo()) && StringUtils.isBlank(genreDto.getAuditInfo().getModifiedBy())) {
+			if(Objects.isNull(genreDto.getAuditInfo()) || StringUtils.isBlank(genreDto.getAuditInfo().getModifiedBy())) {
 				entityToUpdate.setModifiedBy(env.getProperty("movieland.service.serveruser"));
 			} else {
 				entityToUpdate.setModifiedBy(genreDto.getAuditInfo().getModifiedBy());

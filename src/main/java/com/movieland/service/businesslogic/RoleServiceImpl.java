@@ -102,7 +102,7 @@ public class RoleServiceImpl {
 			if(Objects.nonNull(roleDTO.getDescription())) {
 				entityToUpdate.setDescription(roleDTO.getDescription());
 			}
-			if(Objects.isNull(roleDTO.getAuditInfo()) && StringUtils.isBlank(roleDTO.getAuditInfo().getModifiedBy())) {
+			if(Objects.isNull(roleDTO.getAuditInfo()) || StringUtils.isBlank(roleDTO.getAuditInfo().getModifiedBy())) {
 				entityToUpdate.setModifiedBy(env.getProperty("movieland.service.serveruser"));
 			} else {
 				entityToUpdate.setModifiedBy(roleDTO.getAuditInfo().getModifiedBy());

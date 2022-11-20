@@ -99,7 +99,7 @@ public class CountryServiceImpl {
 			if(Objects.nonNull(countryDto.getName())) {
 				entityToUpdate.setName(countryDto.getName());
 			}
-			if(Objects.isNull(countryDto.getAuditInfo()) && StringUtils.isBlank(countryDto.getAuditInfo().getModifiedBy())) {
+			if(Objects.isNull(countryDto.getAuditInfo()) || StringUtils.isBlank(countryDto.getAuditInfo().getModifiedBy())) {
 				entityToUpdate.setModifiedBy(env.getProperty("movieland.service.serveruser"));
 			} else {
 				entityToUpdate.setModifiedBy(countryDto.getAuditInfo().getModifiedBy());

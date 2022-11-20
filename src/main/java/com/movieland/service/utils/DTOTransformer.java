@@ -6,15 +6,20 @@ import java.util.Objects;
 
 import org.springframework.util.CollectionUtils;
 
+import com.movieland.service.dto.ArtistDTO;
 import com.movieland.service.dto.AuditInfo;
 import com.movieland.service.dto.CountryDTO;
 import com.movieland.service.dto.GenreDTO;
 import com.movieland.service.dto.ParentalGuideDTO;
+import com.movieland.service.dto.RoleByArtistDTO;
 import com.movieland.service.dto.RoleDTO;
+import com.movieland.service.entity.Artist;
 import com.movieland.service.entity.Country;
 import com.movieland.service.entity.Genre;
 import com.movieland.service.entity.ParentalGuide;
 import com.movieland.service.entity.Role;
+import com.movieland.service.entity.RoleByArtist;
+import com.movieland.service.enums.GenderCodes;
 import com.movieland.service.enums.StatusCodes;
 
 public class DTOTransformer {
@@ -167,6 +172,67 @@ public class DTOTransformer {
 		
 		dto.setAuditInfo(auditInfo);
 		return dto;
+	}
+	
+	public static ArtistDTO toArtistDTO(Artist entity) {
+		if(Objects.isNull(entity)) {
+			return null;
+		}
+		
+		final ArtistDTO dto = new ArtistDTO();
+		final AuditInfo auditInfo = new AuditInfo();
+		dto.setId(entity.getId());
+		dto.setName(entity.getName());
+		dto.setArtisticName(entity.getArtisticName());
+		dto.setBirthdate(entity.getBirthdate());
+		dto.setGender(GenderCodes.findByCode(entity.getGender()));
+		dto.setStatus(StatusCodes.findByCode(entity.getStatus()));
+		dto.setNationality(toCountryDTO(entity.getNationality()));
+		
+		auditInfo.setCreatedBy(entity.getCreatedBy());
+		auditInfo.setCreatedAt(entity.getCreatedAt());
+		auditInfo.setModifiedBy(entity.getModifiedBy());
+		auditInfo.setModifiedAt(entity.getModifiedAt());
+		
+		dto.setAuditInfo(auditInfo);
+		return dto;
+	}
+	
+	public static RoleByArtistDTO toRoleByArtistDTO(RoleByArtist entity) {
+		if(Objects.isNull(entity)) {
+			return null;
+		}
+		
+		final RoleByArtistDTO dto = new RoleByArtistDTO();
+		final AuditInfo auditInfo = new AuditInfo();
+		dto.setArtist(toArtistDTO(entity.getArtist()));
+		dto.setRole(toRoleDTO(entity.getRole()));
+		dto.setStatus(StatusCodes.findByCode(entity.getStatus()));
+		dto.setStartAt(entity.getStartAt());
+		dto.setEndAt(entity.getEndAt());
+		auditInfo.setCreatedBy(entity.getCreatedBy());
+		auditInfo.setCreatedAt(entity.getCreatedAt());
+		auditInfo.setModifiedBy(entity.getModifiedBy());
+		auditInfo.setModifiedAt(entity.getModifiedAt());
+		
+		dto.setAuditInfo(auditInfo);
+		return dto;
+	}
+	
+	public static List<RoleByArtistDTO> toRoleByArtistDTO(final List<RoleByArtist> entities) {
+		final List<RoleByArtistDTO> dtos = new ArrayList<>();
+		if(!CollectionUtils.isEmpty(entities)) {
+			for(final RoleByArtist entity : entities) {
+				
+				final RoleByArtistDTO dto = toRoleByArtistDTO(entity);
+				if(Objects.nonNull(dto)) {
+					dtos.add(dto);
+				}
+				
+			}
+		}
+		
+		return dtos;
 	}
 	
 }

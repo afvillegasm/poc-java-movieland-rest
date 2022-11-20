@@ -34,7 +34,7 @@ public class Artist implements Serializable{
 	private String artisticName;
 	
 	@Column(name="GENDER")
-	private GenderCodes gender;
+	private String gender;
 	
 	@Column(name="BIRTHDATE", columnDefinition = "DATE")
 	private LocalDate birthdate;
@@ -94,11 +94,11 @@ public class Artist implements Serializable{
 		this.artisticName = artisticName;
 	}
 
-	public GenderCodes getGender() {
+	public String getGender() {
 		return gender;
 	}
 
-	public void setGender(GenderCodes gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 

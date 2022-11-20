@@ -1,11 +1,14 @@
 package com.movieland.service.utils;
 
 import java.util.Objects;
+import java.util.Optional;
 
+import com.movieland.service.dto.ArtistDTO;
 import com.movieland.service.dto.CountryDTO;
 import com.movieland.service.dto.GenreDTO;
 import com.movieland.service.dto.ParentalGuideDTO;
 import com.movieland.service.dto.RoleDTO;
+import com.movieland.service.entity.Artist;
 import com.movieland.service.entity.Country;
 import com.movieland.service.entity.Genre;
 import com.movieland.service.entity.ParentalGuide;
@@ -76,6 +79,33 @@ public class EntityTransformer {
 			entity.setCreatedAt(parentalGuideDTO.getAuditInfo().getCreatedAt());
 			entity.setModifiedBy(parentalGuideDTO.getAuditInfo().getModifiedBy());
 			entity.setModifiedAt(parentalGuideDTO.getAuditInfo().getModifiedAt());
+		}
+		return entity;
+	}
+	
+	public static Artist toArtist(ArtistDTO artistDto) {
+		final Artist entity = new Artist();
+		if(Objects.nonNull(artistDto.getStatus())) {
+			entity.setStatus(artistDto.getStatus().getCode());
+		}
+		if(Objects.nonNull(artistDto.getName())) {
+			entity.setName(artistDto.getName());
+		}
+		if(Objects.nonNull(artistDto.getArtisticName())) {
+			entity.setArtisticName(artistDto.getArtisticName());
+		}
+		if(Objects.nonNull(artistDto.getGender())) {
+			entity.setGender(artistDto.getGender().getCode());
+		}
+		if(Objects.nonNull(artistDto.getBirthdate())) {
+			entity.setBirthdate(artistDto.getBirthdate());
+		}
+		entity.setId(artistDto.getId());
+		if(Objects.nonNull(artistDto.getAuditInfo())) {
+			entity.setCreatedBy(artistDto.getAuditInfo().getCreatedBy());
+			entity.setCreatedAt(artistDto.getAuditInfo().getCreatedAt());
+			entity.setModifiedBy(artistDto.getAuditInfo().getModifiedBy());
+			entity.setModifiedAt(artistDto.getAuditInfo().getModifiedAt());
 		}
 		return entity;
 	}

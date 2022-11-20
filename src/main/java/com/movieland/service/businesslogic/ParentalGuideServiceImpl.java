@@ -102,7 +102,7 @@ public class ParentalGuideServiceImpl {
 			if(Objects.nonNull(parentalGuideDto.getDescription())) {
 				entityToUpdate.setDescription(parentalGuideDto.getDescription());
 			}
-			if(Objects.isNull(parentalGuideDto.getAuditInfo()) && StringUtils.isBlank(parentalGuideDto.getAuditInfo().getModifiedBy())) {
+			if(Objects.isNull(parentalGuideDto.getAuditInfo()) || StringUtils.isBlank(parentalGuideDto.getAuditInfo().getModifiedBy())) {
 				entityToUpdate.setModifiedBy(env.getProperty("movieland.service.serveruser"));
 			} else {
 				entityToUpdate.setModifiedBy(parentalGuideDto.getAuditInfo().getModifiedBy());
