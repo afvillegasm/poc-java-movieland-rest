@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.movieland</groupId>
 	<artifactId>poc-java-movieland-rest</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0.1</version>
 	<name>poc-java-movieland-rest</name>
 	<description>Spring Boot Proof of Concept</description>
 	<properties>

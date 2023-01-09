@@ -10,13 +10,17 @@ import com.movieland.service.dto.ArtistDTO;
 import com.movieland.service.dto.AuditInfo;
 import com.movieland.service.dto.CountryDTO;
 import com.movieland.service.dto.GenreDTO;
+import com.movieland.service.dto.MovieDTO;
 import com.movieland.service.dto.ParentalGuideDTO;
+import com.movieland.service.dto.RateByMovieDTO;
 import com.movieland.service.dto.RoleByArtistDTO;
 import com.movieland.service.dto.RoleDTO;
 import com.movieland.service.entity.Artist;
 import com.movieland.service.entity.Country;
 import com.movieland.service.entity.Genre;
+import com.movieland.service.entity.Movie;
 import com.movieland.service.entity.ParentalGuide;
+import com.movieland.service.entity.RateByMovie;
 import com.movieland.service.entity.Role;
 import com.movieland.service.entity.RoleByArtist;
 import com.movieland.service.enums.GenderCodes;
@@ -233,6 +237,78 @@ public class DTOTransformer {
 		}
 		
 		return dtos;
+	}
+	
+	public static MovieDTO toMovieDTO(final Movie entity) {
+		
+		if(Objects.isNull(entity)) {
+			return null;
+		}
+		
+		final MovieDTO dto = new MovieDTO();
+		final AuditInfo auditInfo = new AuditInfo();
+		
+		dto.setId(entity.getId());
+		dto.setName(entity.getName());
+		dto.setReleaseYear(entity.getReleaseYear());
+		dto.setDurationMins(entity.getDurationMins());
+		dto.setSynopsis(entity.getSynopsis());
+		dto.setGenre(toGenreDTO(entity.getGenre()));
+		dto.setClassifiedAs(toParentalGuideDTO(entity.getClassifiedAs()));
+		dto.setFilmedIn(toCountryDTO(entity.getFilmedIn()));
+		dto.setStatus(StatusCodes.findByCode(entity.getStatus()));
+		
+		auditInfo.setCreatedBy(entity.getCreatedBy());
+		auditInfo.setCreatedAt(entity.getCreatedAt());
+		auditInfo.setModifiedBy(entity.getModifiedBy());
+		auditInfo.setModifiedAt(entity.getModifiedAt());
+		
+		dto.setAuditInfo(auditInfo);
+		
+		return dto;
+		
+	}
+	
+	public static List<MovieDTO> toMovieDTO(final List<Movie> entities) {
+		final List<MovieDTO> dtos = new ArrayList<>();
+		if(!CollectionUtils.isEmpty(entities)) {
+			for(final Movie entity : entities) {
+				
+				final MovieDTO dto = toMovieDTO(entity);
+				if(Objects.nonNull(dto)) {
+					dtos.add(dto);
+				}
+				
+			}
+		}
+		
+		return dtos;
+	}
+	
+	public static RateByMovieDTO toRateByMovieDTO(final RateByMovie entity) {
+		
+		if(Objects.isNull(entity)) {
+			return null;
+		}
+		
+		final RateByMovieDTO dto = new RateByMovieDTO();
+		final AuditInfo auditInfo = new AuditInfo();
+		
+		dto.setId(entity.getId());
+		dto.setRatedMovie(toMovieDTO(entity.getRatedMovie()));
+		dto.setRate(entity.getRate());
+		dto.setRatedAt(entity.getRatedAt());
+		dto.setStatus(StatusCodes.findByCode(entity.getStatus()));
+		
+		auditInfo.setCreatedBy(entity.getCreatedBy());
+		auditInfo.setCreatedAt(entity.getCreatedAt());
+		auditInfo.setModifiedBy(entity.getModifiedBy());
+		auditInfo.setModifiedAt(entity.getModifiedAt());
+		
+		dto.setAuditInfo(auditInfo);
+		
+		return dto;
+		
 	}
 	
 }

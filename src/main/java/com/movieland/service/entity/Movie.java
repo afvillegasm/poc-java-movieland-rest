@@ -57,6 +57,9 @@ public class Movie implements Serializable{
 	@OneToMany(mappedBy = "directedMovie")
 	private List<DirectorByMovie> directedBy;
 	
+	@OneToMany(mappedBy = "ratedMovie")
+	private List<RateByMovie> rates;
+	
 	@Column(name = "STATUS", nullable = false)
 	private String status;
 	
@@ -198,6 +201,14 @@ public class Movie implements Serializable{
 
 	public void setModifiedAt(LocalDateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
+	}
+
+	public List<RateByMovie> getRates() {
+		return rates;
+	}
+
+	public void setRates(List<RateByMovie> rates) {
+		this.rates = rates;
 	}
 	
 }
