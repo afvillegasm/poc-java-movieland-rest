@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -13,15 +14,13 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Repository;
 
-import com.movieland.service.entity.Artist_;
 import com.movieland.service.entity.Movie;
 import com.movieland.service.entity.Movie_;
 import com.movieland.service.entity.RateByMovie;
 import com.movieland.service.entity.RateByMovie_;
-import com.movieland.service.entity.RoleByArtistPK_;
-import com.movieland.service.entity.RoleByArtist_;
 import com.movieland.service.enums.StatusCodes;
 
 @Repository
@@ -32,6 +31,22 @@ public class RateByMovieDaoExtendedImpl implements RateByMovieDaoExtended{
 	
 	@Override
 	public List<RateByMovie> findByMovieByRatedAt(final BigInteger movieId, final LocalDate ratedAt) {
+		
+		final CriteriaQuery query = buildQueryFindByMovieByRatedAt(movieId, ratedAt);
+		
+		return entityManager.createQuery(query).getResultList();
+	}
+	
+	@Override
+	public List<RateByMovie> findByMovieByRatedAtWithConcurrentLock(final BigInteger movieId, final LocalDate ratedAt) {
+		
+		final CriteriaQuery query = buildQueryFindByMovieByRatedAt(movieId, ratedAt);
+		
+		return entityManager.createQuery(query).setLockMode(LockModeType.PESSIMISTIC_WRITE).getResultList();
+		
+	}
+	
+	private CriteriaQuery buildQueryFindByMovieByRatedAt(final BigInteger movieId, final LocalDate ratedAt) {
 		
 		final CriteriaBuilder cb =  entityManager.getCriteriaBuilder();
 		final CriteriaQuery<RateByMovie> query = cb.createQuery(RateByMovie.class);
@@ -46,13 +61,7 @@ public class RateByMovieDaoExtendedImpl implements RateByMovieDaoExtended{
 		}
 		query.where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
 		
-		return entityManager.createQuery(query).getResultList();
-	}
-	
-	@Override
-	public List<RateByMovie> findByMovieByRatedAtWithConcurrentLock(final BigInteger movieId, final LocalDate ratedAt) {
-		
-		return findByMovieByRatedAt(movieId, ratedAt);
+		return query;
 		
 	}
 

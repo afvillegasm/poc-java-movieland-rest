@@ -14,7 +14,6 @@ public interface RateByMovieDaoExtended {
 	
 	public List<RateByMovie> findByMovieByRatedAt(final BigInteger movieId, final LocalDate ratedAt);
 	
-	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	public List<RateByMovie> findByMovieByRatedAtWithConcurrentLock(final BigInteger movieId, final LocalDate ratedAt);
 
 }
